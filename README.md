@@ -6,7 +6,7 @@ Example
 ---------
 
 ```
-$ docker run -it quay.io/ainoya/redpen:1.3.0 /usr/local/bin/redpen -c /usr/local/conf/redpen-conf-ja.xml /usr/local/sample-doc/ja/sampledoc-ja.txt
+$ docker run -it quay.io/ainoya/redpen:latest /usr/local/bin/redpen -c /usr/local/conf/redpen-conf-ja.xml /usr/local/sample-doc/ja/sampledoc-ja.txt
 
 
 [2015-09-16 05:33:46.024][INFO ] cc.redpen.Main - Configuration file: /usr/local/conf/redpen-conf-ja.xml

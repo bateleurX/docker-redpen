@@ -9,9 +9,8 @@ RUN mv /tmp/redpen-distribution-${redpen_ver} /tmp/redpen-distribution
 
 FROM openjdk:11-jre-slim-buster
 
-COPY --from=download-redpen /tmp/redpen-distribution/* /usr/local/
+COPY --from=download-redpen /tmp/redpen-distribution/ /usr/local/
 
-RUN export PATH=$PATH:/usr/local/bin
 WORKDIR /data
 
-CMD ["/usr/local/bin/redpen"]
+ENTRYPOINT ["/usr/local/bin/redpen"]

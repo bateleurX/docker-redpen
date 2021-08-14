@@ -1,4 +1,4 @@
-FROM openjdk:11-jre-buster AS download-redpen
+FROM curlimages/curl:latest AS download-redpen
 
 ENV redpen_ver 1.10.4
 

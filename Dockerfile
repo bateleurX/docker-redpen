@@ -1,9 +1,8 @@
-FROM openjdk:11-jre-slim-buster AS download-redpen
+FROM openjdk:11-jre-buster AS download-redpen
 
 ENV redpen_ver 1.10.4
 
 WORKDIR /tmp
-RUN apt-get update && apt-get -y install curl
 RUN curl -sL https://github.com/redpen-cc/redpen/releases/download/redpen-${redpen_ver}/redpen-${redpen_ver}.tar.gz | tar xz
 RUN mv /tmp/redpen-distribution-${redpen_ver} /tmp/redpen-distribution
 

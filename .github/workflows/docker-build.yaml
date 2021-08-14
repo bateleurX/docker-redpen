@@ -1,12 +1,12 @@
 name: Build and push Docker images
 
-# on:
-#   release:
-#     types: [published]
+on:
+  release:
+    types: [published]
 
 # for debugging
-on:
-  push
+# on:
+#   push
 
 jobs:
   docker:
@@ -39,4 +39,4 @@ jobs:
           context: .
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/redpen:latest,${{ secrets.DOCKERHUB_USERNAME }}/redpen:${{ env.BRANCH }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/redpen:latest,${{ secrets.DOCKERHUB_USERNAME }}/redpen:${{ env.TAG }}

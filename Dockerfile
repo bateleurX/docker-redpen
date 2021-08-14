@@ -1,9 +1,15 @@
-FROM quay.io/ainoya/java
+FROM openjdk:11-jre-slim-buster AS download-redpen
+
+ENV redpen_ver 1.10.4
 
 WORKDIR /tmp
-RUN wget -q https://github.com/redpen-cc/redpen/releases/download/v1.3.0/redpen-1.3.0.tar.gz -O - | tar xz && \
-    cp -av redpen-distribution-1.3/* /usr/local/ && \
-    rm -rf redpen-distribution-1.3
+RUN apt-get update && apt-get -y install curl
+RUN curl -sL https://github.com/redpen-cc/redpen/releases/download/redpen-${redpen_ver}/redpen-${redpen_ver}.tar.gz | tar xz
+RUN mv /tmp/redpen-distribution-${redpen_ver} /tmp/redpen-distribution
+
+FROM openjdk:11-jre-slim-buster
+
+COPY --from=download-redpen /tmp/redpen-distribution/* /usr/local/
 
 RUN export PATH=$PATH:/usr/local/bin
 WORKDIR /data

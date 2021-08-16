@@ -1,7 +1,7 @@
 Another Redpen container
 =================
 
-https://github.com/ainoya/docker-redpen をフォークして、最新のRedpenへの対応を行ったコンテナです。
+https://github.com/ainoya/docker-redpen をフォークして、最新のRedpenへの対応を行ったコンテナです。開発中なのでいろいろと不都合があるかもしれません。
 
 # 主要な変更点
 - Redpenのバージョンアップ
@@ -9,41 +9,74 @@ https://github.com/ainoya/docker-redpen をフォークして、最新のRedpen�
 - ベースOSをUbuntu 15.04からDebian 10に変更
 - （主にm1 mac向け）arm64向けコンテナの追加
 
+# 使い方
+`docker run`コマンドで実行可能です。
+
+```
+docker run -it lighthawk/redpen:latest -h
+usage: redpen-cli [Options] [<INPUT FILE>]
+
+Validate input documents with specified configuration settings.
+
+Options:
+ -c,--conf <CONF FILE>                Configuration file (REQUIRED)
+ -f,--format <FORMAT>                 Input file format
+                                      (markdown,plain,wiki,asciidoc,latex,rest)
+ -h,--help                            Displays this help information and exits
+ -l,--limit <LIMIT NUMBER>            Error limit number
+ -L,--lang <LANGUAGE>                 Language of error messages
+ -r,--result-format <RESULT FORMAT>   Output result format
+                                      (json,json2,plain,plain2,xml)
+ -s,--sentence <INPUT SENTENCES>      Input sentences
+ -t,--threshold <THRESHOLD>           Threshold of error level (info, warn,
+                                      error)
+ -v,--version                         Displays version information and exits
+
+
+Example:
+
+$redpen -c redpen-config.xml input.md
+
+Note:
+Setting files can be generated in http://redpen.herokuapp.com/
+```
+# Redpenそのものの利用方法
+[Redpenの公式ドキュメント](https://redpen.cc/docs/latest/index_ja.html "RedPen 1.10 ドキュメント")を参照してください。
+
 Example
 ---------
 
 ```
-$ docker run -it quay.io/ainoya/redpen:latest redpen -c /usr/local/conf/redpen-conf-ja.xml /usr/local/sample-doc/ja/sampledoc-ja.txt
+docker run -it lighthawk/redpen:latest -c /usr/local/conf/redpen-conf-ja.xml /usr/local/sample-doc/ja/sampledoc-ja.txt
+[2021-08-16 10:09:39.727][INFO ] cc.redpen.Main - Configuration file: /usr/local/conf/redpen-conf-ja.xml
+[2021-08-16 10:09:39.732][INFO ] cc.redpen.config.ConfigurationLoader - Loading config from specified config file: "/usr/local/conf/redpen-conf-ja.xml"
+[2021-08-16 10:09:39.743][INFO ] cc.redpen.config.ConfigurationLoader - Succeeded to load configuration file
+[2021-08-16 10:09:39.743][INFO ] cc.redpen.config.ConfigurationLoader - Language is set to "ja"
+[2021-08-16 10:09:39.744][WARN ] cc.redpen.config.ConfigurationLoader - No variant configuration...
+[2021-08-16 10:09:39.746][INFO ] cc.redpen.config.ConfigurationLoader - No "symbols" block found in the configuration
+[2021-08-16 10:09:39.749][INFO ] cc.redpen.config.SymbolTable - "ja" is specified.
+[2021-08-16 10:09:39.749][INFO ] cc.redpen.config.SymbolTable - "zenkaku" variant is specified
+[2021-08-16 10:09:40.440][INFO ] cc.redpen.parser.SentenceExtractor - "[。, ？, ！]" are added as a end of sentence characters
+[2021-08-16 10:09:40.440][INFO ] cc.redpen.parser.SentenceExtractor - "[’, ”]" are added as a right quotation characters
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by org.parboiled.transform.AsmUtils (file:/usr/local/lib/parboiled-java-1.1.7.jar) to method java.lang.ClassLoader.findLoadedClass(java.lang.String)
+WARNING: Please consider reporting this to the maintainers of org.parboiled.transform.AsmUtils
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+[2021-08-16 10:09:40.705][INFO ] org.reflections.Reflections - Reflections took 34 ms to scan 1 urls, producing 6 keys and 58 values
+[2021-08-16 10:09:40.751][WARN ] cc.redpen.validator.ValidatorFactory - cc.redpen.validator.section.VoidSectionValidator is deprecated
+[2021-08-16 10:09:40.767][WARN ] cc.redpen.validator.ValidatorFactory - cc.redpen.validator.sentence.SpaceBeginningOfSentenceValidator is deprecated
+[2021-08-16 10:09:40.789][INFO ] org.reflections.Reflections - Reflections took 2 ms to scan 1 urls, producing 176 keys and 181 values
+[2021-08-16 10:09:40.795][INFO ] cc.redpen.util.DictionaryLoader - Succeeded to load InvalidExpressionValidator default dictionary.
+[2021-08-16 10:09:40.802][INFO ] cc.redpen.util.DictionaryLoader - Succeeded to load double negative expression rules.
+[2021-08-16 10:09:40.802][INFO ] cc.redpen.util.DictionaryLoader - Succeeded to load double negative words.
+[2021-08-16 10:09:40.806][INFO ] cc.redpen.validator.JavaScriptValidator - JavaScript validators directory: js
+/usr/local/sample-doc/ja/sampledoc-ja.txt:1: ValidationError[SentenceLength], The length of the sentence (125) exceeds the maximum of 100. at line: 最近利用されているソフトウェアの中には複数の計算機上で動作（分散）するものが多く存在し、このような分散ソフトウェアは複数の計算機で動作することで一台では処理が追いつかない大量のデータを扱えたり、高負荷な状況に対処できたり、可用性を向上できたりします。
+/usr/local/sample-doc/ja/sampledoc-ja.txt:2: ValidationError[SuccessiveWord], Found word "で" repeated twice in succession. at line: 本稿では,複数の計算機（Cluster)でで動作する各サーバーを「インスタンス」と呼びます。
+/usr/local/sample-doc/ja/sampledoc-ja.txt:2: ValidationError[InvalidSymbol], Found invalid symbol ")". at line: 本稿では,複数の計算機（Cluster)でで動作する各サーバーを「インスタンス」と呼びます。
+/usr/local/sample-doc/ja/sampledoc-ja.txt:2: ValidationError[InvalidSymbol], Found invalid symbol ",". at line: 本稿では,複数の計算機（Cluster)でで動作する各サーバーを「インスタンス」と呼びます。
+/usr/local/sample-doc/ja/sampledoc-ja.txt:2: ValidationError[KatakanaEndHyphen], Found invalid Katakana end-hyphen "サーバー". at line: 本稿では,複数の計算機（Cluster)でで動作する各サーバーを「インスタンス」と呼びます。
+/usr/local/sample-doc/ja/sampledoc-ja.txt:4: ValidationError[KatakanaEndHyphen], Found invalid Katakana end-hyphen "クラスター". at line: このような場合、クラスターの各インデクスが返す結果をマージしてクライアントにわたす機構が必要です。
 
-
-[2015-09-16 05:33:46.024][INFO ] cc.redpen.Main - Configuration file: /usr/local/conf/redpen-conf-ja.xml
-[2015-09-16 05:33:46.035][INFO ] cc.redpen.ConfigurationLoader - Loading config from specified config file: "/usr/local/conf/redpen-conf-ja.xml"
-[2015-09-16 05:33:46.045][INFO ] cc.redpen.ConfigurationLoader - Succeeded to load configuration file
-[2015-09-16 05:33:46.045][INFO ] cc.redpen.ConfigurationLoader - Language is set to "ja"
-[2015-09-16 05:33:46.045][WARN ] cc.redpen.ConfigurationLoader - No type configuration...
-[2015-09-16 05:33:46.047][INFO ] cc.redpen.ConfigurationLoader - No "symbols" block found in the configuration
-[2015-09-16 05:33:46.147][INFO ] cc.redpen.config.SymbolTable - "ja" is specified.
-[2015-09-16 05:33:46.148][INFO ] cc.redpen.config.SymbolTable - "normal" type is specified
-[2015-09-16 05:33:46.819][INFO ] cc.redpen.parser.SentenceExtractor - "[。, ？, ！]" are added as a end of sentence characters
-[2015-09-16 05:33:46.820][INFO ] cc.redpen.parser.SentenceExtractor - "[’, ”]" are added as a right quotation characters
-[2015-09-16 05:33:46.836][INFO ] cc.redpen.validator.Validator - max_len is set to 100
-[2015-09-16 05:33:46.843][INFO ] cc.redpen.util.DictionaryLoader - Succeeded to load katakana word dictionary.
-[2015-09-16 05:33:46.855][INFO ] cc.redpen.validator.Validator - max_num is set to 1500
-[2015-09-16 05:33:46.857][INFO ] cc.redpen.validator.Validator - max_num is not set. Use default value of 5
-[2015-09-16 05:33:46.859][INFO ] cc.redpen.util.DictionaryLoader - Succeeded to load doubled word skip list.
-[2015-09-16 05:33:46.862][INFO ] cc.redpen.validator.Validator - max_num is not set. Use default value of 3
-[2015-09-16 05:33:46.877][INFO ] cc.redpen.validator.JavaScriptValidator - JavaScript validators directory: /data/js
-sampledoc-ja.txt:1: ValidationError[SentenceLength], The length of the sentence (101) exceeds the maximum of 100. at line: 最近利用されているソフトウェアの中には複数の計算機上で動作（分散）するものが多く存在し、このような分散ソフトウェアは複数の計算機で動作することで大量のデータを扱えたり，高負荷な状況に対処できたりします。
-sampledoc-ja.txt:1: ValidationError[InvalidSymbol], Found invalid symbol "，". at line: 最近利用されているソフトウェアの中には複数の計算機上で動作（分散）するものが多く存在し、このような分散ソフトウェアは複数の計算機で動作することで大量のデータを扱えたり，高負荷な状況に対処できたりします。
-sampledoc-ja.txt:2: ValidationError[InvalidSymbol], Found invalid symbol ",". at line: 本稿では,複数の計算機（クラスタ）でで動作する各サーバーを「インスタンス」と呼びまます。
-sampledoc-ja.txt:2: ValidationError[KatakanaEndHyphen], Found invalid Katakana end-hypen "サーバー". at line: 本稿では,複数の計算機（クラスタ）でで動作する各サーバーを「インスタンス」と呼びまます。
-sampledoc-ja.txt:1: ValidationError[DoubledWord], Found repeated word "分散". at line: 最近利用されているソフトウェアの中には複数の計算機上で動作（分散）するものが多く存在し、このような分散ソフトウェアは複数の計算機で動作することで大量のデータを扱えたり，高負荷な状況に対処できたりします。
-sampledoc-ja.txt:1: ValidationError[DoubledWord], Found repeated word "ソフトウェア". at line: 最近利用されているソフトウェアの中には複数の計算機上で動作（分散）するものが多く存在し、このような分散ソフトウェアは複数の計算機で動作することで大量のデータを扱えたり，高負荷な状況に対処できたりします。
-sampledoc-ja.txt:1: ValidationError[DoubledWord], Found repeated word "複数". at line: 最近利用されているソフトウェアの中には複数の計算機上で動作（分散）するものが多く存在し、このような分散ソフトウェアは複数の計算機で動作することで大量のデータを扱えたり，高負荷な状況に対処できたりします。
-sampledoc-ja.txt:1: ValidationError[DoubledWord], Found repeated word "計算". at line: 最近利用されているソフトウェアの中には複数の計算機上で動作（分散）するものが多く存在し、このような分散ソフトウェアは複数の計算機で動作することで大量のデータを扱えたり，高負荷な状況に対処できたりします。
-sampledoc-ja.txt:1: ValidationError[DoubledWord], Found repeated word "動作". at line: 最近利用されているソフトウェアの中には複数の計算機上で動作（分散）するものが多く存在し、このような分散ソフトウェアは複数の計算機で動作することで大量のデータを扱えたり，高負荷な状況に対処できたりします。
-sampledoc-ja.txt:1: ValidationError[DoubledWord], Found repeated word "たり". at line: 最近利用されているソフトウェアの中には複数の計算機上で動作（分散）するものが多く存在し、このような分散ソフトウェアは複数の計算機で動作することで大量のデータを扱えたり，高負荷な状況に対処できたりします。
-sampledoc-ja.txt:4: ValidationError[SpaceBetweenAlphabeticalWord], Space not present before an alphabetical word. at line: このような場合、各インデクスの結果をマージしてclientプログラムに渡す機構が必要となります。
-sampledoc-ja.txt:4: ValidationError[SpaceBetweenAlphabeticalWord], Space not present after an alphabetical word. at line: このような場合、各インデクスの結果をマージしてclientプログラムに渡す機構が必要となります。
-sampledoc-ja.txt:2: ValidationError[SuccessiveWord], Found word "で" repeated twice in succession. at line: 本稿では,複数の計算機（クラスタ）でで動作する各サーバーを「インスタンス」と呼びまます。
+[2021-08-16 10:09:40.834][ERROR] cc.redpen.Main - The number of errors "6" is larger than specified (limit is "1").
 ```

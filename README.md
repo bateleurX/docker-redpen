@@ -1,6 +1,13 @@
-Redpen container
+Another Redpen container
 =================
 
+https://github.com/ainoya/docker-redpen をフォークして、最新のRedpenへの対応を行ったコンテナです。
+
+# 主要な変更点
+- Redpenのバージョンアップ
+- 利用するJDKをOracle JDK 8からOpenJDK 11に変更
+- ベースOSをUbuntu 15.04からDebian 10に変更
+- （主にm1 mac向け）arm64向けコンテナの追加
 
 Example
 ---------

@@ -33,22 +33,12 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       -
-        name: Build and push(Bullseye)
+        name: Build and push(jammy)
         uses: docker/build-push-action@v3.1.1
         with:
-          context: bullseye/
+          context: semeru/
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/redpen:bullseye-latest,${{ secrets.DOCKERHUB_USERNAME }}/redpen:latest,${{ secrets.DOCKERHUB_USERNAME }}/redpen:bullseye-${{ env.TAG }},${{ secrets.DOCKERHUB_USERNAME }}/redpen:${{ env.TAG }}
-          cache-to: type=gha,mode=max
-          cache-from: type=gha
-      -
-        name: Build and push(Buster)
-        uses: docker/build-push-action@v3.1.1
-        with:
-          context: buster/
-          platforms: linux/amd64,linux/arm64
-          push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/redpen:buster-latest,${{ secrets.DOCKERHUB_USERNAME }}/redpen:buster-${{ env.TAG }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/redpen:semeru-latest,${{ secrets.DOCKERHUB_USERNAME }}/redpen:semeru-${{ env.TAG }}
           cache-to: type=gha,mode=max
           cache-from: type=gha

@@ -40,8 +40,8 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/redpen:bullseye-latest,${{ secrets.DOCKERHUB_USERNAME }}/redpen:latest,${{ secrets.DOCKERHUB_USERNAME }}/redpen:bullseye-${{ env.TAG }},${{ secrets.DOCKERHUB_USERNAME }}/redpen:${{ env.TAG }}
-          cache-to: type=gha,mode=max,scope=bullseye
-          cache-from: type=gha,scope=bullseye
+          cache-to: type=gha,mode=max
+          cache-from: type=gha
       -
         name: Build and push(Buster)
         uses: docker/build-push-action@v3.1.1
@@ -50,5 +50,5 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/redpen:buster-latest,${{ secrets.DOCKERHUB_USERNAME }}/redpen:buster-${{ env.TAG }}
-          cache-to: type=gha,mode=max,scope=buster
-          cache-from: type=gha,scope=buster
+          cache-to: type=gha,mode=max
+          cache-from: type=gha

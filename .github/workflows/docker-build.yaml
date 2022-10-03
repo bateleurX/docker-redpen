@@ -34,7 +34,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       -
         name: Build and push(Bullseye)
-        uses: docker/build-push-action@v2.10.0
+        uses: docker/build-push-action@v3.1.1
         with:
           context: bullseye/
           platforms: linux/amd64,linux/arm64
@@ -42,7 +42,7 @@ jobs:
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/redpen:bullseye-latest,${{ secrets.DOCKERHUB_USERNAME }}/redpen:latest,${{ secrets.DOCKERHUB_USERNAME }}/redpen:bullseye-${{ env.TAG }},${{ secrets.DOCKERHUB_USERNAME }}/redpen:${{ env.TAG }}
       -
         name: Build and push(Buster)
-        uses: docker/build-push-action@v2.10.0
+        uses: docker/build-push-action@v3.1.1
         with:
           context: buster/
           platforms: linux/amd64,linux/arm64

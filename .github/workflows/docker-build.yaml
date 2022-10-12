@@ -33,6 +33,6 @@ jobs:
         with:
           platforms: linux/amd64,linux/arm64
           push: false
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/redpen:semeru-latest,${{ secrets.DOCKERHUB_USERNAME }}/redpen:semeru-${{ env.TAG }}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/redpen:semeru-latest,${{ secrets.DOCKERHUB_USERNAME }}/redpen:semeru-1.10.4
           cache-to: type=gha,mode=max
           cache-from: type=gha

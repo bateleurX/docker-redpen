@@ -1,13 +1,5 @@
 name: Build and push Docker images
 
-on:
-  release:
-    types: [published]
-
-# for debugging
-# on:
-#   push
-
 jobs:
   docker:
     runs-on: ubuntu-22.04
@@ -37,7 +29,7 @@ jobs:
         uses: docker/build-push-action@v3.1.1
         with:
           platforms: linux/amd64,linux/arm64
-          push: true
+          push: false
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/redpen:semeru-latest,${{ secrets.DOCKERHUB_USERNAME }}/redpen:semeru-${{ env.TAG }}
           cache-to: type=gha,mode=max
           cache-from: type=gha
